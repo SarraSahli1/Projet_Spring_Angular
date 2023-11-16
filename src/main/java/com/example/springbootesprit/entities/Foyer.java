@@ -1,5 +1,6 @@
 package com.example.springbootesprit.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,12 +22,15 @@ public class Foyer implements Serializable {
     long idFoyer;
     String nomFoyer;
     long capaciteFoyer;
-    @OneToOne
+
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
     Universite uni;
-@OneToMany (cascade = CascadeType.ALL,mappedBy = "foyers")
-Set<Bloc> blocs;
 
 
+    @OneToMany(mappedBy = "foyers")
+    private Set<Bloc> Blocs;
 
 }
 
