@@ -13,5 +13,6 @@ public interface IFoyerService {
     Foyer update(Foyer foyer);
     void delete(Long id);
     Foyer getFoyerById(Long id);
-
+    Universite affecterFoyerAUniversite (long idFoyer, String nomUniversite);
+    Universite desaffecterFoyerAUniversite (long idFoyer);
 }

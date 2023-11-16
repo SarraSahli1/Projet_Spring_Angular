@@ -2,6 +2,7 @@ package com.example.springbootesprit.service;
 
 import com.example.springbootesprit.entities.Bloc;
 import com.example.springbootesprit.entities.Chambre;
+import com.example.springbootesprit.entities.Foyer;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,5 +16,6 @@ public interface IBlocService {
      List<Bloc> getAllBlocs();
      void deleteBloc(Bloc b);
 
+    Foyer addFoyerWithBloc (Foyer foyer);
 
 }

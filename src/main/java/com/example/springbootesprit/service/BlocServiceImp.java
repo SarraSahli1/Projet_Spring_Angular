@@ -2,6 +2,7 @@ package com.example.springbootesprit.service;
 
 import com.example.springbootesprit.entities.Bloc;
 import com.example.springbootesprit.entities.Chambre;
+import com.example.springbootesprit.entities.Foyer;
 import com.example.springbootesprit.repositories.BlocRepository;
 import com.example.springbootesprit.repositories.FoyerRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -70,7 +71,18 @@ public class BlocServiceImp implements IBlocService{
         blocRepository.deleteById(id);
     }
 
-
+    @Override
+    public Foyer addFoyerWithBloc (Foyer foyer){
+        //sauvegarder l'objet fils foyer
+        Foyer f= foyerRepository.save(foyer);
+        //parcourir la liste des blocs
+        f.getBlocs().forEach(bloc -> {
+            //affecter le child foyer au parent bloc et sauvegarder le parent
+            bloc.setFoyers(f);
+            blocRepository.save(bloc);
+        });
+        return f;
+    }
 
 
 }

@@ -4,6 +4,7 @@ import com.example.springbootesprit.entities.Bloc;
 import com.example.springbootesprit.entities.Foyer;
 import com.example.springbootesprit.entities.Universite;
 import com.example.springbootesprit.repositories.FoyerRepository;
+import com.example.springbootesprit.repositories.UniversiteRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import java.util.Optional;
 public class FoyerServiceImp implements IFoyerService{
     @Autowired
     FoyerRepository foyerRepository;
+    UniversiteRepository universiteRepository;
     @Override
     public Foyer addFoyer(Foyer foyer) {
         return foyerRepository.save(foyer);
@@ -49,6 +51,21 @@ public class FoyerServiceImp implements IFoyerService{
         return  foyerRepository.findById(id).get();
     }
 
+    @Override
+    public Universite affecterFoyerAUniversite(long idFoyer, String nomUniversite) {
+        Universite uni = universiteRepository.findByNomUniversite(nomUniversite);
+        Foyer foyer = foyerRepository.findById(idFoyer).get();
+        foyer.setUni(uni);
+        foyerRepository.save(foyer);
+        return uni;
+    }
+    @Override
+    public Universite desaffecterFoyerAUniversite (long idFoyer){
+        Foyer foyer = foyerRepository.findById(idFoyer).get();
+        foyer.setUni(null);
+        foyerRepository.save(foyer);
+        return foyer.getUni();
+    }
 
 
 
