@@ -24,9 +24,8 @@ public class ReservationController {
     ReservationServiceImp iReservationService;
     @PostMapping("/addReservation")
     Reservation addReservation(@RequestBody Reservation reservation)
-    {
-        return iReservationService.addReservation(reservation);
-    }
+    {return iReservationService.addReservation(reservation);}
+
     @GetMapping("/allReservation")
     List<Reservation> allReservations(){
         return iReservationService.getAllReservation();
@@ -37,33 +36,35 @@ public class ReservationController {
         return iReservationService.getReservationById(id);
     }
 
-    @PutMapping("/updateRes/{id}")
-    Reservation updateRes(@RequestBody Reservation reservation)
-    {
-        return iReservationService.update(reservation);
-    }
-    @PutMapping("/updateReservation/{id}")
+
+    @PutMapping("/updateReservationid/{id}")
     Reservation updateRes(@RequestBody Reservation reservation, @PathVariable String id)
     {
         reservation.setIdReservation(id);
         return iReservationService.update(reservation);
+    }
+    @PutMapping("/updateReservation")
+    Reservation updateReservation(@RequestBody Reservation reservation)
+    {
+        return  iReservationService.update(reservation);
     }
     @DeleteMapping("/deleteRes/{id}")
     void deleteRes(@PathVariable String id)
     {
         iReservationService.delete(id);
     }
-    @PutMapping("/affecterReservationAChambre/{idReservation}/{idChambre}")
-    String affecterReservationAChambre(@PathVariable String idReservation, @PathVariable long idChambre)
-    {
-        return iReservationService.affecterReservationAChambre(idReservation,idChambre);
-    }
+
     @PutMapping("/affecterReservationAEtudiant/{idReservation}/{idEtudiant}")
     String affecterReservationAEtudiant(@PathVariable String idReservation, @PathVariable long idEtudiant)
     {
         return iReservationService.affecterReservationAEtudiant(idReservation,idEtudiant);
     }
 
+    @PutMapping("/affecterReservationAChambre/{idReservation}/{idChambre}")
+    String affecterReservationAChambre(@PathVariable String idReservation, @PathVariable long idChambre)
+    {
+        return iReservationService.affecterReservationAChambre(idReservation,idChambre);
+    }
     @PutMapping("/desaffecterReservationAChambre/{idReservation}")
     String desaffecterReservationAChambre(@PathVariable String idReservation)
     {

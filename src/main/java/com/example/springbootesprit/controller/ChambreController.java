@@ -48,6 +48,7 @@ public class ChambreController {
     void deleteChambre(@RequestBody Chambre chambre) {
         iChambreService.deleteChambre(chambre);
     }
+
     @PutMapping("/affecterChambreABloc/{idChambre}/{idBloc}")
     String affecterChambreABloc(@PathVariable long idChambre, @PathVariable long idBloc)
     {

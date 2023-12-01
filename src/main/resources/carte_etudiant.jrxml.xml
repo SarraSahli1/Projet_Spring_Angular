@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="carte_etudiant" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ed82eb96-ca19-4308-b22f-5b9b6a64f468">
+    <property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="springproject"/>
+    <parameter name="id" class="java.lang.Integer"/>
+    <queryString language="SQL">
+        <![CDATA[select firstname, lastname, email
+        from user
+        where id= $P{id}]]>
+    </queryString>
+
+    <field name="firstname" class="java.lang.String"/>
+    <field name="lastname" class="java.lang.String"/>
+    <field name="email" class="java.lang.String"/>
+
+    <background>
+        <band splitType="Stretch">
+            <!-- Add any desired elements or content here -->
+        </band>
+    </background>
+    <title>
+        <band height="180" splitType="Stretch">
+            <!-- Rectangle for the entire line -->
+            <rectangle>
+                <reportElement x="0" y="0" width="595" height="40" forecolor="#000000" backcolor="#3465A4"/>
+            </rectangle>
+
+            <!-- Title -->
+            <staticText>
+                <reportElement x="0" y="0" width="595" height="40" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center">
+                    <font size="24" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Carte d'etudiant]]></text>
+            </staticText>
+
+            <!-- Leave a couple of empty lines -->
+            <staticText>
+                <reportElement x="0" y="60" width="595" height="20"/>
+                <text><![CDATA[ ]]></text>
+            </staticText>
+
+            <!-- Nom -->
+            <rectangle>
+                <reportElement x="0" y="80" width="595" height="20" forecolor="#000000" backcolor="#3465A4"/>
+            </rectangle>
+            <staticText>
+                <reportElement x="10" y="80" width="70" height="20" forecolor="#FFFFFF"/>
+                <textElement>
+                    <font size="14" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Nom:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="80" y="80" width="505" height="20" forecolor="#FFFFFF"/>
+                <textFieldExpression><![CDATA[$F{firstname}]]></textFieldExpression>
+            </textField>
+
+            <!-- Prenom -->
+            <rectangle>
+                <reportElement x="0" y="110" width="595" height="20" forecolor="#000000" backcolor="#3465A4"/>
+            </rectangle>
+            <staticText>
+                <reportElement x="10" y="110" width="70" height="20" forecolor="#FFFFFF"/>
+                <textElement>
+                    <font size="14" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Prenom:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="80" y="110" width="505" height="20" forecolor="#FFFFFF"/>
+                <textFieldExpression><![CDATA[$F{lastname}]]></textFieldExpression>
+            </textField>
+
+            <!-- Email -->
+            <rectangle>
+                <reportElement x="0" y="140" width="595" height="20" forecolor="#000000" backcolor="#3465A4"/>
+            </rectangle>
+            <staticText>
+                <reportElement x="10" y="140" width="70" height="20" forecolor="#FFFFFF"/>
+                <textElement>
+                    <font size="14" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Email:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="80" y="140" width="505" height="20" forecolor="#FFFFFF"/>
+                <textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+</jasperReport>

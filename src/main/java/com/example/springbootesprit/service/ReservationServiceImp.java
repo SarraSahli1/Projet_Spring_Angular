@@ -117,12 +117,27 @@ public String affecterReservationAChambre(String idReservation, long idChambre) 
 
     @Override
     public Reservation update(Reservation reservation) {
-        {
-            Reservation res= reservationRepository.findById(reservation.getIdReservation()).orElseThrow(() -> new EntityNotFoundException("No Bloc with id " + reservation.getIdReservation() + " was found!"));
-            if (res!=null){
-                reservationRepository.save(reservation);}
-            return res;
+        // Retrieve the existing reservation from the repository
+        Reservation existingReservation = reservationRepository.findById(reservation.getIdReservation())
+                .orElseThrow(() -> new EntityNotFoundException("No Reservation with id " + reservation.getIdReservation() + " was found!"));
+
+        // Check if the existing reservation is not null
+        if (existingReservation != null) {
+            // Update the properties of the existing reservation with the new values
+            existingReservation.setAnneeUniversite(reservation.getAnneeUniversite());
+            existingReservation.setEstValide(reservation.isEstValide());
+            existingReservation.setCommentaire(reservation.getCommentaire());
+            // Set other properties accordingly
+
+            // Save the updated reservation back to the repository
+            reservationRepository.save(existingReservation);
+
+            // Return the updated reservation
+            return existingReservation;
         }
+
+        // Return null or handle appropriately if the existing reservation is null
+        return null;
     }
 
     @Override
