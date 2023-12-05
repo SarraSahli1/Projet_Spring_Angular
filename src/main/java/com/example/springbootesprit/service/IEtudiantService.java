@@ -1,6 +1,5 @@
 package com.example.springbootesprit.service;
 
-import com.example.springbootesprit.entities.Bloc;
 import com.example.springbootesprit.entities.Etudiant;
 
 import java.util.List;
@@ -13,4 +12,7 @@ public interface IEtudiantService {
     Etudiant update(Etudiant etudiant);
     void delete(Long id);
     Etudiant getEtudiantById(Long id);
+    void getlistetudiantExcel();
+    public String generecarteetudpdf(long idEtudiant);
+
 }

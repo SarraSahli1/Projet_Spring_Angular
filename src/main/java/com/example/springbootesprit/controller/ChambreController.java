@@ -10,7 +10,8 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-    @CrossOrigin("*")
+
+@CrossOrigin(origins = "http://localhost:4200")
 public class ChambreController {
     @Autowired
     ChambreServiceImp iChambreService;

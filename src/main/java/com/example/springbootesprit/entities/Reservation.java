@@ -24,14 +24,15 @@ import java.util.Set;
     private static final long serialVersionUID = 1L;
 
     @Id
-        String idReservation;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+        Long idReservation;
+    @Temporal(TemporalType.DATE)
         Date anneeUniversite;
         boolean estValide;
         String commentaire;
 
-@ManyToMany(mappedBy = "reservations",cascade = CascadeType.ALL)
-@JsonManagedReference
-
+@ManyToMany(mappedBy = "reservations",cascade = CascadeType.ALL ,fetch=FetchType.EAGER)
+@JsonIgnore
 Set<Etudiant>etudiants;
 @ManyToOne
 @JoinColumn(name = "chambre_id")
