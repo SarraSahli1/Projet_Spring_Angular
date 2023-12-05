@@ -2,6 +2,7 @@ package com.example.springbootesprit.service;
 
 import com.example.springbootesprit.entities.Bloc;
 import com.example.springbootesprit.entities.Chambre;
+import com.example.springbootesprit.entities.TypeChambre;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,5 +17,10 @@ public interface IChambreService {
     void delete(Long id);
     void deleteChambre(Chambre b);
     Chambre getChambreById(Long id);
+    List<Chambre> getChambresByBloc(Bloc bloc);
+    List<Chambre> getChambresByType(TypeChambre typeChambre);
+    public String AffecterChambreABloc(long idChambre, long idBloc);
+
+
 
 }

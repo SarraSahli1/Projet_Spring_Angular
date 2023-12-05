@@ -31,8 +31,14 @@ public class Chambre implements Serializable {
     @JoinColumn(name = "bloc_id")
     @JsonBackReference
     Bloc bloc;
-    @OneToMany(cascade = CascadeType.ALL)
 
+    public Bloc getBloc() {
+        return bloc;
+    }
+
+    @OneToMany(cascade = CascadeType.ALL)
     Set<Reservation>reservations;
+
+
 
 }
