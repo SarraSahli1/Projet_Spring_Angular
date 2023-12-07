@@ -13,9 +13,16 @@ public interface IBlocService {
     Bloc update(Bloc bloc);
     void delete(Long id);
     Bloc getBlocById(Long id);
-     List<Bloc> getAllBlocs();
-     void deleteBloc(Bloc b);
+    List<Bloc> getAllBlocs();
+    void deleteBloc(Bloc b);
 
-    Foyer addFoyerWithBloc (Foyer foyer);
+    public Foyer addBlocWithFoyer(Foyer foyer) ;
+    public List<Bloc> rechercherParNom(String partieNom);
+    public String calculatePercentageByBloc(String nomBloc);
+
+    public List<Bloc> rechercherBloc(String partieNom);
+    public int getNombreChambresReserveesSurBloc(long idBloc);
+    public boolean estBlocComplet(long idBloc);
+    public void affecterBlocAuFoyer(long idBloc, long idFoyer) ;
 
 }

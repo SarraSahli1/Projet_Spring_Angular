@@ -13,11 +13,15 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Collections;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -35,9 +39,10 @@ public class AuthenticationController {
     PasswordEncoder encoder;
     @Autowired
     UserServiceImp userServiceImp;
-@Autowired
-JwtService jwtService ;
-
+    @Autowired
+    JwtService jwtService;
+    @Value("${base.url}")
+    private String baseUrl;
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest signUpRequest) {
         if (userRepository.existsByFirstname(signUpRequest.getFirstname())) {
@@ -83,58 +88,76 @@ JwtService jwtService ;
         String jwtToken = jwtService.generateToken(user); // Use appropriate UserDetails if needed
 
         // Return JWT token in the response
-        return ResponseEntity.ok(new AuthenticationResponse(jwtToken,userRole));
+        return ResponseEntity.ok(new AuthenticationResponse(jwtToken, userRole));
     }
 
 
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody AuthenticationRequest request
-    ){
+    ) {
         return ResponseEntity.ok(service.authenticate(request));
 
     }
 
-//1.forget password button takes u here
-    @PostMapping("/password-reset-request")
-     public String resetPasswordRequest(@RequestBody PasswordResetRequest passwordResetRequest,
-                                        final HttpServletRequest request) throws MessagingException, jakarta.mail.MessagingException, UnsupportedEncodingException {
-         Optional<User> user = userServiceImp.findByEmail(passwordResetRequest.getEmail());
-         String passwordResetUrl = "";
-        if (user.isPresent()){
+    //1.forget password button takes u here
+    @RequestMapping(value = "/password-reset-request", method = RequestMethod.POST)
+    public String resetPasswordRequest(@RequestBody PasswordResetRequest passwordResetRequest,
+                                       final HttpServletRequest request) throws MessagingException, jakarta.mail.MessagingException, UnsupportedEncodingException {
+        Optional<User> user = userServiceImp.findByEmail(passwordResetRequest.getEmail());
+        String passwordResetUrl = "";
+
+        if (user.isPresent()) {
             String passwordResetToken = UUID.randomUUID().toString();
             userServiceImp.createPasswordResetTokenForUser(user.get(), passwordResetToken);
             passwordResetUrl = passswordResetEmailLink(user.get(), applicationUrl(request), passwordResetToken);
         }
+
         return passwordResetUrl;
-     }
+    }
 
 
     private String passswordResetEmailLink(User user, String applicationUrl, String passwordResetToken) throws MessagingException, jakarta.mail.MessagingException, UnsupportedEncodingException {
-        String url = applicationUrl+"/api/v1/auth/reset-password?token="+ passwordResetToken;
-        userServiceImp.sendPasswordResetVerificationEmail(url,user);
+        String url = baseUrl + "/reset-password?token=" + passwordResetToken;
+        userServiceImp.sendPasswordResetVerificationEmail(url, user);
         log.info("Click the link to reset ur password  : {}", url);
         return url;
     }
 
     //2. the link takes u here
     @PostMapping("/reset-password")
-    public String resetPassword(@RequestBody PasswordResetRequest passwordResetRequest,
-                                @RequestParam("token") String passwordResetToken){
+    public ResponseEntity<Map<String, String>> resetPassword(
+            @RequestBody PasswordResetRequest passwordResetRequest) {
+
+        String passwordResetToken = passwordResetRequest.getToken();
+
         String tokenValidationResult = userServiceImp.validatePasswordResetToken(passwordResetToken);
-        if(!tokenValidationResult.equalsIgnoreCase("valid")){
-            return "Invalid password reset token";
+
+        if (!tokenValidationResult.equalsIgnoreCase("valid")) {
+            return ResponseEntity.badRequest()
+                    .body(Collections.singletonMap("error", "Invalid password reset token"));
         }
-        User user=userServiceImp.findUserByPasswordToken(passwordResetToken);
-        if (user != null){
+
+        User user = userServiceImp.findUserByPasswordToken(passwordResetToken);
+        if (user != null) {
             userServiceImp.resetUserPassword(user, passwordResetRequest.getNewPassword());
-            return "Password has been reset successfully";
+            return ResponseEntity.ok()
+                    .body(Collections.singletonMap("message", "Password has been reset successfully"));
         }
-        return "Invalid Password reset token ";
+
+        return ResponseEntity.badRequest()
+                .body(Collections.singletonMap("error", "Invalid Password reset token"));
     }
+
+
     public String applicationUrl(HttpServletRequest request) {
-        return "http://"+request.getServerName()+":"
-                +request.getServerPort()+request.getContextPath();
+        String baseUrl = ServletUriComponentsBuilder.fromRequestUri(request)
+                .replacePath(null)
+                .replaceQuery(null)
+                .build()
+                .toUriString();
+
+        return baseUrl;
     }
 
 }

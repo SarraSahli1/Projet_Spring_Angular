@@ -6,10 +6,11 @@ import java.util.List;
 
 public interface IReservationService  {
     Reservation addReservation(Reservation reservation);
-    Reservation getReservationById(String id);
-    void delete(String id);
+    Reservation getReservationById(Long idReservation);
+    void delete(Long id);
     Reservation update(Reservation reservation);
     List<Reservation> getAllReservation();
+    String getPercentageOfStudentsWithReservation();
     //void affecterReservationAChambre(String idReservation, long idChambre);
 
 

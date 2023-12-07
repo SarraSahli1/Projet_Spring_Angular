@@ -1,6 +1,7 @@
 package com.example.springbootesprit.controller;
 
 
+import com.example.springbootesprit.entities.Reservation;
 import com.example.springbootesprit.entities.User;
 import com.example.springbootesprit.service.IUserService;
 import lombok.AllArgsConstructor;
@@ -20,6 +21,9 @@ public class UserController {
     List<User> allUsers() {
         return iUserService.getUser();
     }
+    @PostMapping("/addUser")
+    User addUser(@RequestBody User user)
+    {return iUserService.addUser(user);}
 
     @GetMapping("/User/{id}")
     User UserById(@PathVariable Integer id) {

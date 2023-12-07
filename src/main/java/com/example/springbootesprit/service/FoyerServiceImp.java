@@ -1,6 +1,5 @@
 package com.example.springbootesprit.service;
 
-import com.example.springbootesprit.entities.Bloc;
 import com.example.springbootesprit.entities.Foyer;
 import com.example.springbootesprit.entities.Universite;
 import com.example.springbootesprit.repositories.FoyerRepository;
@@ -15,6 +14,7 @@ import java.util.Optional;
 public class FoyerServiceImp implements IFoyerService{
     @Autowired
     FoyerRepository foyerRepository;
+    @Autowired
     UniversiteRepository universiteRepository;
     @Override
     public Foyer addFoyer(Foyer foyer) {
@@ -33,14 +33,20 @@ public class FoyerServiceImp implements IFoyerService{
 
     @Override
     public Foyer update(Foyer foyer) {
-        {
-            Foyer foyer1= foyerRepository.findById(foyer.getIdFoyer()).orElseThrow(() -> new EntityNotFoundException("No Bloc with id " + foyer.getIdFoyer() + " was found!"));
-            if (foyer1!=null){
-                foyerRepository.save(foyer);}
-            return foyer1;
-        }
-    }
+        Long id = foyer.getIdFoyer();
+        Foyer existingReservation = foyerRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("No foyer with id " + id + " was found!"));
 
+        // Update existingReservation with the values from the provided reservation
+        existingReservation.setNomFoyer(foyer.getNomFoyer());
+        existingReservation.setArchived(foyer.getArchived());
+        existingReservation.setCapaciteFoyer(foyer.getCapaciteFoyer());
+        // Add other property updates...
+
+        foyerRepository.save(existingReservation);
+
+        return existingReservation;
+    }
     @Override
     public void delete(Long id) {
         foyerRepository.deleteById(id);
@@ -53,7 +59,7 @@ public class FoyerServiceImp implements IFoyerService{
 
     @Override
     public Universite affecterFoyerAUniversite(long idFoyer, String nomUniversite) {
-        Universite uni = universiteRepository.findByNomUniversite(nomUniversite);
+        Universite uni = universiteRepository.findUniversiteByNomUniversite(nomUniversite);
         Foyer foyer = foyerRepository.findById(idFoyer).get();
         foyer.setUni(uni);
         foyerRepository.save(foyer);

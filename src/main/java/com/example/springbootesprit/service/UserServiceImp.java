@@ -2,6 +2,7 @@ package com.example.springbootesprit.service;
 
 import com.example.springbootesprit.controller.MessagingException;
 import com.example.springbootesprit.entities.EnumRole;
+import com.example.springbootesprit.entities.Reservation;
 import com.example.springbootesprit.entities.User;
 import com.example.springbootesprit.repositories.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -88,15 +89,15 @@ public class UserServiceImp implements IUserService {
         passwordResetTokenService.createPasswordResetTokenForUser(user,passwordToken);
     }
     public void sendPasswordResetVerificationEmail(String url, User theUser) throws MessagingException, UnsupportedEncodingException, jakarta.mail.MessagingException {
-        String subject = "Password Reset Request Verification";
-        String senderName = "User Registration Portal Service";
+        String subject = "Verification changement de mot de passe                                                        ";
+        String senderName = "SAJJELNI Service utilisateurs";
         if (theUser != null && theUser.getEmail() != null) {
 
-            String mailContent = "<p> Hi, "+ theUser.getFirstname()+ ", </p>"+
-                "<p><b>You recently requested to reset your password,</b>"+"" +
-                "Please, follow the link below to complete the action.</p>"+
-                "<a href=\"" +url+ "\">Reset password</a>"+
-                "<p> Users Registration Portal Service";
+            String mailContent = "<p> Bonjour, "+ theUser.getFirstname()+ ", </p>"+
+                "<p><b>Vous avez demandé de changer votre mot de passe </b>"+"" +
+                "Veuillez suivre ce lien pour terminer ce processus</p>"+
+                "<a href=\"" +url+ "\">Changer votre mot de passe</a>"+
+                "<p>SAJJELNI Service utilisateurs";
         MimeMessage message = this.mailSender.createMimeMessage();
         var messageHelper = new MimeMessageHelper(message);
         messageHelper.setFrom("universityspring123@gmail.com", senderName);
@@ -220,5 +221,10 @@ public class UserServiceImp implements IUserService {
             return "Error--> check the console log";
         }
 
+    }
+
+    @Override
+    public User addUser(User user) {
+        return userRepository.save(user);
     }
 }

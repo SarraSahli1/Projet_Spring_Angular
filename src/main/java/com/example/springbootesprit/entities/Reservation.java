@@ -20,25 +20,25 @@ import java.util.Set;
 @NoArgsConstructor
 @JsonIgnoreProperties("etudiants")
 
-    public class Reservation implements Serializable {
+public class Reservation implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-        String idReservation;
-        Date anneeUniversite;
-        boolean estValide;
-        String commentaire;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long idReservation;
+    @Temporal(TemporalType.DATE)
+    Date anneeUniversite;
+    boolean estValide;
+    String commentaire;
 
-@ManyToMany(mappedBy = "reservations",cascade = CascadeType.ALL)
-@JsonManagedReference
-
-Set<Etudiant>etudiants;
-@ManyToOne
-@JoinColumn(name = "chambre_id")
+    @ManyToMany(mappedBy = "reservations",cascade = CascadeType.ALL ,fetch=FetchType.EAGER)
+    @JsonIgnore
+    Set<Etudiant>etudiants;
+    @ManyToOne
+    @JoinColumn(name = "chambre_id")
     Chambre chambre;
 
 
 
 }
-
 

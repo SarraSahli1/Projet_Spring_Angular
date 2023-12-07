@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/Universite")
 public class UniversiteController {
 
-   IUniversiteService universiteService;
+    IUniversiteService universiteService;
 
     @GetMapping ("/retrive-all-universites")
     public List<Universite> getUniversites() {

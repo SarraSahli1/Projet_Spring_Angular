@@ -1,5 +1,6 @@
 package com.example.springbootesprit.service;
 
+import com.example.springbootesprit.entities.Reservation;
 import com.example.springbootesprit.entities.User;
 
 import java.util.List;
@@ -26,4 +27,6 @@ public interface IUserService {
     void getlistUserExcel();
 
     String genereCarteUserPdf(Integer id);
+
+    User addUser(User user);
 }
