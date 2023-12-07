@@ -69,14 +69,14 @@ public class ChambreController {
         iChambreService.deleteChambre(chambre);
     }
     @PutMapping("/affecterChambreABloc/{idChambre}/{idBloc}")
-    String affecterChambreABloc(@PathVariable long idChambre, @PathVariable long idBloc)
+    void affecterChambreABloc(@PathVariable long idChambre, @PathVariable long idBloc)
     {
-        return iChambreService.AffecterChambreABloc(idChambre,idBloc);
+        iChambreService.AffecterChambreABloc(idChambre,idBloc);
     }
     @PutMapping("/desaffecterChambreABloc/{idChambre}")
-    String desaffecterChambreABloc(@PathVariable long idChambre)
+    void desaffecterChambreABloc(@PathVariable long idChambre)
     {
-        return iChambreService.desaffecterChambreDeBloc(idChambre);
+         iChambreService.desaffecterChambreDeBloc(idChambre);
     }
 
 

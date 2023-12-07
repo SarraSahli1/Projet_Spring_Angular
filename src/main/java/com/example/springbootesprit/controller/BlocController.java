@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @AllArgsConstructor
@@ -74,9 +75,9 @@ public class BlocController {
 
 
 
-    @GetMapping("/percentage/{nomBloc}")
-    public String getPercentageByBloc(@PathVariable String nomBloc) {
-        return blocServiceImp.calculatePercentageByBloc(nomBloc);
+    @GetMapping("/percentage/{idBloc}")
+    public Map<String, Double> getPercentageByBloc(@PathVariable long idBloc) {
+        return blocServiceImp.calculatePercentageByBloc(idBloc);
     }
 
     @PutMapping("/affecterFoyerABloc/{idFoyer}/{idBloc}")

@@ -31,7 +31,7 @@ public class ChambreServiceImp implements IChambreService{
     BlocRepository blocRepository;
 
 
-    public String AffecterChambreABloc(long idChambre, long idBloc) {
+    public void AffecterChambreABloc(long idChambre, long idBloc) {
         try {
             Optional<Chambre> optionalChambre = chambreRepository.findById(idChambre);
             Optional<Bloc> optionalBloc = blocRepository.findById(idBloc);
@@ -43,7 +43,6 @@ public class ChambreServiceImp implements IChambreService{
                 chambre.setBloc(bloc);
                 chambreRepository.save(chambre);
 
-                return "Chambre successfully assigned to bloc.";
             } else {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Chambre or Bloc not found.");
             }
@@ -52,7 +51,7 @@ public class ChambreServiceImp implements IChambreService{
         }
     }
 
-    public String desaffecterChambreDeBloc(long idChambre) {
+    public void desaffecterChambreDeBloc(long idChambre) {
         try {
             Optional<Chambre> optionalChambre = chambreRepository.findById(idChambre);
 
@@ -60,7 +59,6 @@ public class ChambreServiceImp implements IChambreService{
                 Chambre chambre = optionalChambre.get();
                 chambre.setBloc(null); // Dissocier la chambre du bloc en définissant le bloc à null
                 chambreRepository.save(chambre);
-                return "Chambre successfully removed from bloc.";
             } else {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Chambre not found.");
             }
