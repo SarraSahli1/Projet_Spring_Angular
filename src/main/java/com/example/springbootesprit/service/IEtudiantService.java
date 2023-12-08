@@ -13,4 +13,7 @@ public interface IEtudiantService {
     Etudiant update(Etudiant etudiant);
     void delete(Long id);
     Etudiant getEtudiantById(Long id);
+    void getlistetudiantExcel();
+    public String generecarteetudpdf(long idEtudiant);
+
 }

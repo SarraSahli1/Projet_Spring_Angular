@@ -197,10 +197,6 @@ public class UserServiceImp implements IUserService {
                     .compileReport(new ClassPathResource("carte_etudiant.jrxml.xml")
                             .getInputStream());
 
-
-
-
-
             // Add parameters
             Map<String, Object> parameters = new HashMap<>();
 

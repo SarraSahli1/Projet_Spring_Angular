@@ -52,7 +52,8 @@ public class UserController {
     public void getlistUserExcel() {
         this.iUserService.getlistUserExcel();
     }
-    @GetMapping("/carteetudiant/{id}")
+
+    @GetMapping("/carteuser/{id}")
     public String generecarteetudpdf (@PathVariable("id") Integer id){
         return iUserService.genereCarteUserPdf(id) ;
 
