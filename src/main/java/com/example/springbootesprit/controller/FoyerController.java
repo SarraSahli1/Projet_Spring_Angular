@@ -1,9 +1,12 @@
 package com.example.springbootesprit.controller;
 
 import com.example.springbootesprit.entities.Foyer;
+import com.example.springbootesprit.entities.Reservation;
 import com.example.springbootesprit.entities.Universite;
+import com.example.springbootesprit.repositories.FoyerRepository;
 import com.example.springbootesprit.service.FoyerServiceImp;
 import com.example.springbootesprit.service.IFoyerService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,11 +14,11 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/Foyer")
 
 public class FoyerController {
     IFoyerService iFoyerService;
     FoyerServiceImp foyerServiceImp;
+    FoyerRepository foyerRepository;
     @PostMapping("/addFoyer")
     Foyer addFoyer(@RequestBody Foyer foyer)
     {
@@ -30,9 +33,11 @@ public class FoyerController {
     {
         return iFoyerService.getFoyerById(id);
     }
-    @PutMapping("/updateFoyer")
-    Foyer updateFoyer(@PathVariable Foyer foyer )
+
+    @PutMapping("/update-foyer/{id}")
+    Foyer updateFoyer(@RequestBody Foyer foyer, @PathVariable Long id)
     {
+        foyer.setIdFoyer(id);
         return iFoyerService.update(foyer);
     }
     @DeleteMapping ("/deleteFoyer/{id}")

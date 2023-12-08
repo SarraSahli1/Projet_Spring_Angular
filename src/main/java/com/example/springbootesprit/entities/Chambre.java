@@ -32,7 +32,6 @@ public class Chambre implements Serializable {
     @JsonBackReference
     Bloc bloc;
     @OneToMany(cascade = CascadeType.ALL)
-
     Set<Reservation>reservations;
 
 }

@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -19,26 +18,19 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties("etudiants")
-
-    public class Reservation implements Serializable {
+public class Reservation implements Serializable {
     private static final long serialVersionUID = 1L;
-
     @Id
-        String idReservation;
-        Date anneeUniversite;
-        boolean estValide;
-        String commentaire;
-
-@ManyToMany(mappedBy = "reservations",cascade = CascadeType.ALL)
-@JsonManagedReference
-
-Set<Etudiant>etudiants;
-@ManyToOne
-@JoinColumn(name = "chambre_id")
-    Chambre chambre;
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long idReservation;
+    @Temporal(TemporalType.DATE)
+    Date anneeUniversite;
+    boolean estValide;
+    String commentaire;
+    @ManyToMany(mappedBy = "reservations",cascade = CascadeType.ALL ,fetch=FetchType.EAGER)
+    @JsonIgnore
+    Set<Etudiant>etudiants;
 
 
 }
-
 
