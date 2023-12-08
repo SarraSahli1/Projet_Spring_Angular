@@ -15,9 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -115,17 +113,19 @@ public class BlocServiceImp implements IBlocService{
         return (List<Bloc>) blocRepository.findByNomBloc(partieNom);
     }
     @Override
-    public String calculatePercentageByBloc(String nomBloc) {
-        Bloc bloc = blocRepository.findByNomBloc(nomBloc);
+    public Map<String, Double> calculatePercentageByBloc(long idBloc) {
+        Optional<Bloc> optionalBloc = blocRepository.findById(Long.valueOf(idBloc));
 
-        if (bloc == null) {
-            return "Bloc not found";
+        if (optionalBloc.isEmpty()) {
+            return null;
         }
+
+        Bloc bloc = optionalBloc.get();
 
         long totalChambres = bloc.getChambres().size();
 
         if (totalChambres == 0) {
-            return "No rooms in the bloc";
+            return null;
         }
 
         long simpleCount = bloc.getChambres().stream().filter(chambre -> chambre.getTypeC() == TypeChambre.SIMPLE).count();
@@ -136,10 +136,12 @@ public class BlocServiceImp implements IBlocService{
         double doublePercentage = (double) doubleCount / totalChambres * 100;
         double triplePercentage = (double) tripleCount / totalChambres * 100;
 
-        return "Bloc " + nomBloc + " - " +
-                "Simple: " + simplePercentage + "%, " +
-                "Double: " + doublePercentage + "%, " +
-                "Triple: " + triplePercentage + "%";
+        Map<String, Double> percentages = new HashMap<>();
+        percentages.put("simplePercentage", simplePercentage);
+        percentages.put("doublePercentage", doublePercentage);
+        percentages.put("triplePercentage", triplePercentage);
+
+        return percentages;
     }
     @Override
     public int getNombreChambresReserveesSurBloc(long idBloc) {

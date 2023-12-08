@@ -19,7 +19,7 @@ public interface IChambreService {
     Chambre getChambreById(Long id);
     List<Chambre> getChambresByBloc(Bloc bloc);
     List<Chambre> getChambresByType(TypeChambre typeChambre);
-    public String AffecterChambreABloc(long idChambre, long idBloc);
+    public void AffecterChambreABloc(long idChambre, long idBloc);
 
 
 

@@ -5,6 +5,7 @@ import com.example.springbootesprit.entities.Chambre;
 import com.example.springbootesprit.entities.Foyer;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface IBlocService {
@@ -18,7 +19,7 @@ public interface IBlocService {
 
     public Foyer addBlocWithFoyer(Foyer foyer) ;
     public List<Bloc> rechercherParNom(String partieNom);
-    public String calculatePercentageByBloc(String nomBloc);
+    public Map<String, Double> calculatePercentageByBloc(long idBloc);
 
     public List<Bloc> rechercherBloc(String partieNom);
     public int getNombreChambresReserveesSurBloc(long idBloc);
